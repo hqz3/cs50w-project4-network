@@ -7,43 +7,77 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'network/styles.css' %}" rel="stylesheet">
     </head>
+    
     <body>
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Network</a>
-          
-            <div>
-              <ul class="navbar-nav mr-auto">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'index' %}">All Posts</a>
-                </li>
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Following</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    </li>
-                {% endif %}
-              </ul>
-            </div>
-          </nav>
-        
+        <div class="left-pane">
+            <nav class="navigation-bar">
+                    <div class="logo">
+                        <div><span style="color: crimson">CS</span>50Network</div>
+                    </div>
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="{% url 'index' %}">All Posts</a>
+                        </div>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="#">Following</a>
+                        </div>
+                    </div>
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="#">Notifications</a>
+                        </div>
+                    </div>
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="#">Messages</a>
+                        </div>
+                    </div>
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="#">Bookmarks</a>
+                        </div>
+                    </div>
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="#">Lists</a>
+                        </div>
+                    </div>
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="#">Profile</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <div class="logout">
+                        <a class="navigation-link" href="{% url 'logout' %}">Log Out</a>
+                    </div>
+                    {% else %}
+                    <div class="navigation-item-container">
+                        <div class="navigation-item">
+                            <a class="navigation-link" href="{% url 'login' %}">Log In</a>
+                        </div>
+                    </div>
+                    <div class="register">
+                        <a class="navigation-link" href="{% url 'register' %}">Register</a>
+                    </div>
+                    {% endif %}
+            </nav>
+        </div>
+            
         <div class="body">
             {% block body %}
             {% endblock %}
         </div>
+        
+        <div class="right-pane">
+        </div>
+
+        {% block script %}
+            <script src="{% static 'network/script.js' %}"></script>
+        {% endblock %}
     </body>
 </html>

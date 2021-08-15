@@ -1,5 +1,21 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    {% if user.is_authenticated %}
+        <div class="all-posts-title">All Posts</div>
+        <div class="new-post-container">
+            <div class="profile-pic">
+            </div>
+            
+            <div class="new-post-form">
+                <form>
+                    <textarea rows="2" placeholder="What's happening?"></textarea>
+                </form>
+                <div class="submit-container">
+                    <input type="submit" value="Post"></input>
+                </div>
+            </div>
+        
+        </div>
+    {% endif %}
 {% endblock %}
