@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from . models import User, Post
 
 
 def index(request):
@@ -39,8 +39,8 @@ def logout_view(request):
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
-        first_name = request.POST["first"]
-        last_name = request.POST["last"]
+        first = request.POST["first"]
+        last = request.POST["last"]
         email = request.POST["email"]
 
         # Ensure password matches confirmation
@@ -53,7 +53,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, first_name, last_name, email, password)
+            user = User.objects.create_user(username, email, password, first_name=first, last_name=last)
             user.save()
         except IntegrityError:
             return render(request, "network/register.html", {
@@ -63,3 +63,11 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+# Add new post into database
+def post(request):
+    if request.method == "POST":
+        body = request.POST["body"]
+        post = Post(user=request.user, body=body)
+        post.save()
+    return HttpResponseRedirect(reverse(index))

@@ -8,12 +8,13 @@
             </div>
             
             <div class="new-post-form">
-                <form>
-                    <textarea maxlength="280" rows="2" placeholder="What's happening?"></textarea>
+                <form action="{% url 'post' %}" method="post">
+                    {% csrf_token %}
+                    <textarea maxlength="280" rows="2" name="body" placeholder="What's happening?" required></textarea>
+                    <div class="submit-container">
+                        <input type="submit" value="Post"></input>
+                    </div>
                 </form>
-                <div class="submit-container">
-                    <input type="submit" value="Post"></input>
-                </div>
             </div>
         
         </div>
