@@ -20,10 +20,30 @@
     {% endif %}
     {% for post in posts %}
         <div class="post-container">
-            <b>{{ post.user.first_name }} {{ post.user.last_name }} </b> @{{ post.user.username }} {{ post.timestamp }}
-            <div class="post-body">
-                {{ post.body }}
+            <div class="profile-pic">
+                PIC
             </div>
+            <div class="post-body-container">
+                <div class="post-body-top">
+                    <b>{{ post.user.first_name }} {{ post.user.last_name }} </b> @{{ post.user.username }} · {{ post.timestamp }}
+                    <a class="edit" href=""#>Edit</a>
+                </div>
+                
+                <div class="post-body">
+                    {{ post.body }}
+                </div>
+
+                <div class="post-options">
+                    <li>Comment</li>
+                    <li>Retweet</li>
+                    <li>
+                        <a>
+                            Like <span>{{ post.likes.all.count }}</span>
+                        </a>
+                    </li>
+                </div>
+            </div>
+
         </div>
     {% endfor %}
 {% endblock %}

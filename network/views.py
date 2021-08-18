@@ -9,8 +9,7 @@ from . models import User, Post
 
 def index(request):
     # Show all of the current user's posts
-    post = Post.objects.all()
-    posts = Post.objects.all().order_by('-timestamp') 
+    posts = Post.objects.all().order_by('-timestamp')
     context = {"posts": posts}
     return render(request, "network/index.html", context)
 
