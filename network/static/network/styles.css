@@ -136,7 +136,6 @@ body {
     font-size: 16px;
     height: auto;
     width: 100%;
-    /* background-color: cyan; */
 }
 
 .profile-pic {
@@ -166,6 +165,25 @@ body {
     text-align: center;
     width: 100%;
 }
+
+.like-container {
+    display: flex;
+    justify-content: center;
+}
+
+.like-container:hover {
+    color: crimson;
+    cursor: pointer;
+}
+
+.like {
+    margin-right: 4px;
+}
+
+.like-count {
+    margin-left: 4px;
+}
+
 
 /* Right Pane */
 

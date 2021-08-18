@@ -36,10 +36,10 @@
                 <div class="post-options">
                     <li>Comment</li>
                     <li>Retweet</li>
-                    <li>
-                        <a>
-                            Like <span>{{ post.likes.all.count }}</span>
-                        </a>
+                    <li class="like-container">
+                        <div class="like">Like</div>
+                        <br>
+                        <div class="like-count">{{ post.likes.all.count }}</div>
                     </li>
                 </div>
             </div>
