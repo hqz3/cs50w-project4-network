@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -74,3 +75,18 @@ def post(request):
         post = Post(user=request.user, body=body)
         post.save()
     return HttpResponseRedirect(reverse(index))
+
+# Update the like count for a post
+def update_likes(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+        if (request.user in post.likes.all()):
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        return JsonResponse({
+            "success": "Like updated",
+            "count": post.total_likes,
+        })
+    except:
+        return JsonResponse({"error": "Post not found"}, status=404)

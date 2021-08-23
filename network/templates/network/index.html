@@ -2,23 +2,24 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="all-posts-title">All Posts</div>
-        <div class="new-post-container">
-            <div class="profile-pic">
+    <div class="all-posts-title">All Posts</div>
+    <div class="new-post-container">
+        <div class="profile-pic">
+        </div>
+        
+        <div class="new-post-form">
+            <form action="{% url 'post' %}" method="post">
+                {% csrf_token %}
+                <textarea maxlength="280" rows="2" name="body" placeholder="What's happening?" required></textarea>
+                <div class="submit-container">
+                    <input type="submit" value="Post"></input>
+                </div>
+            </form>
             </div>
             
-            <div class="new-post-form">
-                <form action="{% url 'post' %}" method="post">
-                    {% csrf_token %}
-                    <textarea maxlength="280" rows="2" name="body" placeholder="What's happening?" required></textarea>
-                    <div class="submit-container">
-                        <input type="submit" value="Post"></input>
-                    </div>
-                </form>
-            </div>
         </div>
-    {% endif %}
-    {% for post in posts %}
+        {% endif %}
+        {% for post in posts %}
         <div class="post-container">
             <div class="profile-pic">
                 PIC
@@ -32,18 +33,19 @@
                 <div class="post-body">
                     {{ post.body }}
                 </div>
-
+                
+                {% if user.is_authenticated %}
                 <div class="post-options">
                     <li>Comment</li>
                     <li>Retweet</li>
-                    <li class="like-container">
+                    <li class="like-container" value="{{ post.id }}">
                         <div class="like">Like</div>
-                        <br>
-                        <div class="like-count">{{ post.likes.all.count }}</div>
+                        <div class="like-count">{{ post.total_likes }}</div>
                     </li>
                 </div>
+                {% endif %}
             </div>
-
+            
         </div>
-    {% endfor %}
-{% endblock %}
+        {% endfor %}
+        {% endblock %}
