@@ -130,9 +130,13 @@ body {
      transition: filter 0.25s;
  }
 
+ .post-outer-container {
+     border-bottom: 1px solid gainsboro;
+     padding: 15px;
+ }
+
 .post-container {
     background-color: white;
-    border-bottom: 1px solid gainsboro;
     display: flex;
     font-size: 16px;
     height: auto;
@@ -149,8 +153,13 @@ body {
     width: 100%;
 }
 
+.post-body-top {
+    display: flex;
+    justify-content: space-between;
+}
+
 .post-body {
-    background-color: gold;
+    /* background-color: gold; */
 }
 
 .post-options {

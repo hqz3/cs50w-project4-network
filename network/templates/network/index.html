@@ -19,40 +19,47 @@
             
         </div>
         {% endif %}
+        
         {% for post in posts %}
-        <div class="post-container">
-            <div class="profile-pic">
-                PIC
-            </div>
-            <div class="post-body-container">
-                <div class="post-body-top">
-                    <b>{{ post.user.first_name }} {{ post.user.last_name }} </b> @{{ post.user.username }} · {{ post.timestamp }}
-                    <a class="edit" href=""#>Edit</a>
+        <div class="post-outer-container">
+
+            <div class="post-container">
+                <div class="profile-pic">
+                    PIC
                 </div>
-                
-                <div class="post-body">
-                    {{ post.body }}
-                </div>
-                
-                {% if user.is_authenticated %}
-                <div class="post-options">
-                    <li>Comment</li>
-                    <li>Retweet</li>
-                    {% if request.user in post.likes.all %}
-                        <li class="like-container" id="liked" value="{{ post.id }}">
-                            <div class="like">Like</div>
-                                <div class="like-count">{{ post.total_likes }}</div>
-                        </li>
-                    {% else %}
-                        <li class="like-container" id="not-liked" value="{{ post.id }}">
-                            <div class="like">Like</div>
-                                <div class="like-count">{{ post.total_likes }}</div>
-                        </li>
+                <div class="post-body-container">
+                    <div class="post-body-top">
+                        <div>
+                            <b>{{ post.user.first_name }} {{ post.user.last_name }}</b> @{{ post.user.username }} · {{ post.timestamp }}
+                        </div>
+                        <a class="edit" href=""#>Edit</a>
+                    </div>
+                    
+                    <div class="post-body">
+                        {{ post.body }}
+                    </div>
+                    
+                    {% if user.is_authenticated %}
+                    <div class="post-options">
+                        <li>Comment</li>
+                        <li>Retweet</li>
+                        {% if request.user in post.likes.all %}
+                            <li class="like-container" id="liked" value="{{ post.id }}">
+                                <div class="like">Like</div>
+                                    <div class="like-count">{{ post.total_likes }}</div>
+                            </li>
+                        {% else %}
+                            <li class="like-container" id="not-liked" value="{{ post.id }}">
+                                <div class="like">Like</div>
+                                    <div class="like-count">{{ post.total_likes }}</div>
+                            </li>
+                        {% endif %}
+                    </div>
                     {% endif %}
                 </div>
-                {% endif %}
+                
             </div>
-            
+
         </div>
         {% endfor %}
         {% endblock %}
