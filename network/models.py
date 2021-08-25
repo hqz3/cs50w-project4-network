@@ -10,14 +10,6 @@ class Post(models.Model):
     likes = models.ManyToManyField("User", blank=True, related_name="likes")
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def serialize(self):
-        return {
-            "user": self.user,
-            "body": self.body,
-            "likes": [user.likes for user in self.likes.all()],
-            "timestamp": self.timestamp,
-        }
-    
     def __str__(self):
         return f"{self.id} - {self.user}"
     

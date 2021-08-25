@@ -38,10 +38,17 @@
                 <div class="post-options">
                     <li>Comment</li>
                     <li>Retweet</li>
-                    <li class="like-container" value="{{ post.id }}">
-                        <div class="like">Like</div>
-                        <div class="like-count">{{ post.total_likes }}</div>
-                    </li>
+                    {% if request.user in post.likes.all %}
+                        <li class="like-container" id="liked" value="{{ post.id }}">
+                            <div class="like">Like</div>
+                                <div class="like-count">{{ post.total_likes }}</div>
+                        </li>
+                    {% else %}
+                        <li class="like-container" id="not-liked" value="{{ post.id }}">
+                            <div class="like">Like</div>
+                                <div class="like-count">{{ post.total_likes }}</div>
+                        </li>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

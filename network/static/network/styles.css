@@ -185,6 +185,13 @@ body {
     margin-left: 4px;
 }
 
+#liked {
+    color: crimson;
+}
+
+#not-liked {
+    color: black;
+}
 
 /* Right Pane */
 
