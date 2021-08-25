@@ -1,3 +1,21 @@
+// Post submit button enabled only after user inputs text
+const postBody = document.querySelector(".new-post-form textarea");
+const postButton = document.querySelector(".submit-container input");
+
+postBody.addEventListener('keyup', handlePostBodyInput);
+
+function handlePostBodyInput(e) {
+    if (postBody.value === "") {
+        postButton.disabled = true;
+        postButton.style = "filter: opacity(50%)"
+    }
+    else {
+        postButton.style = "filter: opacity(100%)"
+        postButton.disabled = false;
+    } 
+}
+
+
 // When user "likes" a post, update its "Like" count in the database
 const likeButtons = document.querySelectorAll(".like-container");
 likeButtons.forEach(button => button.addEventListener('click', handleLikeClick));
