@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.http.response import JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from . models import User, Post
 
@@ -68,6 +69,7 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+
 # Add new post into database
 def post(request):
     if request.method == "POST":
@@ -76,17 +78,23 @@ def post(request):
         post.save()
     return HttpResponseRedirect(reverse(index))
 
+
 # Update the like count for a post
+@csrf_exempt
 def update_likes(request, post_id):
     try:
         post = Post.objects.get(id=post_id)
+        currently_liked = None
         if (request.user in post.likes.all()):
             post.likes.remove(request.user)
+            currently_liked = False
         else:
             post.likes.add(request.user)
+            currently_liked = True
         return JsonResponse({
-            "success": "Like updated",
-            "count": post.total_likes,
+            "message": "Like updated",
+            "count": post.total_likes(),
+            "currently_liked": currently_liked,
         })
     except:
-        return JsonResponse({"error": "Post not found"}, status=404)
+        return JsonResponse({"message": "Post not found"}, status=400)
