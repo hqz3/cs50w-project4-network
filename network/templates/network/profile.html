@@ -1,37 +1,45 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
     {% if user.is_authenticated %}
-    <div class="all-posts-title">All Posts</div>
-    <div class="new-post-container">
-        <div class="profile-pic">
-        </div>
-        
-        <div class="new-post-form">
-            <form action="{% url 'post' %}" method="post">
-                {% csrf_token %}
-                <textarea maxlength="280" rows="2" name="body" placeholder="What's happening?" required></textarea>
-                <div class="submit-container">
-                    <input type="submit" value="Post" disabled></input>
-                </div>
-            </form>
-        </div>
-            
-    </div>
-    {% endif %}
 
-    {% for post in posts %}
+    <div class="profile-container">
+        <div class="profile-top">
+            <div class="image-container">
+                <img src="{% static 'images/default-profile.jpeg' %}">
+            </div>
+            {% if request.user.username != viewed_user.username %}
+            <div class="follow-button-container">
+                <button class="follow-button" value="Follow">Follow</button>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="profile-bio-container">
+            <div style="font-size: 22px"><strong>{{ viewed_user.first_name }} {{ viewed_user.last_name }}</strong></div>
+            <div style="font-size: 16px; color: gray">@{{ viewed_user.username }}</div>
+            <div class="profile-bio"> 
+                I like food and travel.
+            </div>
+        </div>
+                
+        <div class="profile-following">
+            # Following # Followers
+        </div>
+    </div>
+
+    {% for post in viewed_user_posts %}
     <div class="post-outer-container">
 
         <div class="post-container">
-            
             <div class="profile-pic">
                 PIC
             </div>
             <div class="post-body-container">
                 <div class="post-body-top">
                     <div>
-                        <b>{{ post.user.first_name }} {{ post.user.last_name }}</b> @<a href="/profile/{{ post.user.username }}">{{ post.user.username }}</a> · {{ post.get_time }}
+                        <b>{{ post.user.first_name }} {{ post.user.last_name }}</b> @{{ post.user.username }}</a> · {{ post.get_time }}
                     </div>
                     <a class="edit" href=""#>Edit</a>
                 </div>
@@ -63,5 +71,7 @@
 
     </div>
     {% endfor %}
+    {% endif %}
+    <script src="{% static 'network/script2.js' %}"></script>
 
 {% endblock %}
