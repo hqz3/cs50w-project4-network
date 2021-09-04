@@ -19,3 +19,7 @@ class Post(models.Model):
     
     def total_likes(self):
         return self.likes.count()
+
+class Follow(models.Model):
+    user = models.ForeignKey("User", blank=False, on_delete=models.CASCADE, related_name="followers")
+    following = models.ForeignKey("User", blank=False, on_delete=models.CASCADE, related_name="following")

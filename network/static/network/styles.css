@@ -53,20 +53,19 @@ body {
     text-decoration: none;
 }
 
-.logout .navigation-link {
+.logout .navigation-link, .register .navigation-link {
     color: white;
     font-size: 18px;
 }
 
-.logout, .register {
+.logout a, .register a {
     background-color: crimson;
     border: 1px solid crimson;
     border-radius: 25px;
     display: flex;
     justify-content: center;
     padding: 10px 0 10px 0;
-    transition: filter 0.25s;
-    width: 100%;
+    transition: filter 0.25s
 }
 
 .logout:hover, .register:hover {
@@ -240,6 +239,10 @@ body {
     color: white;
     font-size: 16px;
     padding: 5px 20px 5px 20px;
+}
+
+.follow-button:focus {
+    outline: none;
 }
 
 .profile-bio {

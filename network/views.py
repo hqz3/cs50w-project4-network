@@ -99,8 +99,11 @@ def update_likes(request, post_id):
     except:
         return JsonResponse({"message": "Post not found"}, status=400)
 
+
 def profile(request, user):
     viewed_user = User.objects.all().get(username=user)
+    print(viewed_user.likes.all())
+    print(viewed_user.posts.all())
     viewed_user_posts = viewed_user.posts.all().order_by('-timestamp')
     context = {
         "viewed_user": viewed_user,
