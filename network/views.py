@@ -129,7 +129,7 @@ def profile(request, username):
 def toggle_follow(request, username):
     current_user = User.objects.get(username=request.user)
     viewed_user = User.objects.get(username=username)
-    
+
     currently_following = current_user.following.all()
     already_followed = False
     
@@ -139,8 +139,12 @@ def toggle_follow(request, username):
             followed.delete()
             break
     if already_followed:
-        return JsonResponse({"message": "Unfollowed"})
+        return JsonResponse(
+            {"message": "Unfollowed",
+            "viewed_user_followers": viewed_user.followers.all().count()})
     else:
         follow = Follow(user=request.user, following=viewed_user)
         follow.save()
-        return JsonResponse({"message": "Followed"})
+        return JsonResponse(
+            {"message": "Followed",
+            "viewed_user_followers": viewed_user.followers.all().count()})

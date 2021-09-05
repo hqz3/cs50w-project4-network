@@ -268,8 +268,13 @@ body {
 
 .profile-following {
     font-size: 16px;
+    color: gray;
 }
 
+.follower-count, .following-count {
+    font-weight: bold;
+    color: black;
+}
 
 /* Right Pane */
 

@@ -18,14 +18,25 @@ function handleLikeClick(e) {
 }
 
 
-let toggleFollowButton = document.querySelector(".toggle-follow-button");
+const followerCount = document.querySelector(".follower-count");
+
+const toggleFollowButton = document.querySelector(".toggle-follow-button");
+if (toggleFollowButton.id === "unfollow") {
+    toggleFollowButton.addEventListener('mouseenter', handleUnfollowMouseOver);
+    toggleFollowButton.addEventListener('mouseleave', handleUnfollowMouseLeave);
+}
+
 toggleFollowButton.addEventListener('click', handleToggleFollowClick);
 
 function handleToggleFollowClick(e) {
     let username = e.currentTarget.getAttribute('value');
     fetch(`/profile/${username}/toggle_follow`)
     .then(response => response.json())
-    .then(data => console.log(data.message))
+    .then(data => {
+        console.log(data.message);
+        // Update "Followers" count
+        followerCount.textContent = data.viewed_user_followers;
+    })
     
     let action = e.currentTarget.getAttribute('id');
     toggleFollowButton.setAttribute('id', action === "follow" ? "unfollow" : "follow");
@@ -40,6 +51,7 @@ function handleToggleFollowClick(e) {
         toggleFollowButton.removeEventListener('mouseenter', handleUnfollowMouseOver);
         toggleFollowButton.removeEventListener('mouseleave', handleUnfollowMouseLeave);    
     }
+    
 }
 
 function handleUnfollowMouseOver(e) {
