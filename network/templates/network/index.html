@@ -31,7 +31,7 @@
             <div class="post-body-container">
                 <div class="post-body-top">
                     <div>
-                        <b>{{ post.user.first_name }} {{ post.user.last_name }}</b> @<a href="/profile/{{ post.user.username }}">{{ post.user.username }}</a> · {{ post.get_time }}
+                        <a href="/profile/{{ post.user.username }}"><b>{{ post.user.first_name }} {{ post.user.last_name }}</a> </b> @{{ post.user.username }} · {{ post.get_time }}
                     </div>
                     <a class="edit" href=""#>Edit</a>
                 </div>
@@ -45,12 +45,12 @@
                     <li>Comment</li>
                     <li>Retweet</li>
                     {% if request.user in post.likes.all %}
-                    <li class="like-container" id="liked" value="{{ post.id }}">
+                    <li class="like-container" id="liked" title="Unlike" value="{{ post.id }}">
                         <div class="like">Like</div>
                             <div class="like-count">{{ post.total_likes }}</div>
                     </li>
                     {% else %}
-                    <li class="like-container" id="not-liked" value="{{ post.id }}">
+                    <li class="like-container" id="not-liked" title="Like" value="{{ post.id }}">
                         <div class="like">Like</div>
                             <div class="like-count">{{ post.total_likes }}</div>
                     </li>

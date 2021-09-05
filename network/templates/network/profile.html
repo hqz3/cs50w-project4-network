@@ -12,11 +12,11 @@
             {% if request.user.username != viewed_user.username %}
                 {% if currently_followed == False %}
                 <div class="follow-button-container">
-                    <button class="toggle-follow-button" id="follow" value="{{ viewed_user.username }}">Follow</button>
+                    <button class="toggle-follow-button" id="follow" title="Follow" value="{{ viewed_user.username }}">Follow</button>
                 </div>
                 {% else %}
                 <div class="follow-button-container">
-                    <button class="toggle-follow-button" id="unfollow" value="{{ viewed_user.username }}">Following</button>
+                    <button class="toggle-follow-button" id="unfollow" title="Unfollow" value="{{ viewed_user.username }}">Following</button>
                 </div>
                 {% endif %}
             {% endif %}
@@ -59,12 +59,12 @@
                     <li>Comment</li>
                     <li>Retweet</li>
                     {% if request.user in post.likes.all %}
-                    <li class="like-container" id="liked" value="{{ post.id }}">
+                    <li class="like-container" id="liked" title="Unlike" value="{{ post.id }}">
                         <div class="like">Like</div>
                             <div class="like-count">{{ post.total_likes }}</div>
                     </li>
                     {% else %}
-                    <li class="like-container" id="not-liked" value="{{ post.id }}">
+                    <li class="like-container" id="not-liked" title="Like" value="{{ post.id }}">
                         <div class="like">Like</div>
                             <div class="like-count">{{ post.total_likes }}</div>
                     </li>

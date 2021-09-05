@@ -12,8 +12,14 @@ function handleLikeClick(e) {
         let likeCount = likeContainer.querySelector(".like-count");
         likeCount.innerHTML = data.count;
         
-        if (data.currently_liked) likeContainer.setAttribute("id", "liked");
-        else likeContainer.setAttribute("id", "not-liked");
+        if (data.currently_liked) {
+            likeContainer.setAttribute("id", "liked");
+            likeContainer.title = "Unlike";
+        }
+        else {
+            likeContainer.setAttribute("id", "not-liked");
+            likeContainer.title = "Like";
+        }
     })
 }
 
