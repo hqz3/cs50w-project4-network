@@ -10,12 +10,18 @@
                 <img src="{% static 'images/default-profile.jpeg' %}">
             </div>
             {% if request.user.username != viewed_user.username %}
-            <div class="follow-button-container">
-                <button class="follow-button" value="Follow">Follow</button>
-            </div>
+                {% if currently_followed == False %}
+                <div class="follow-button-container">
+                    <button class="toggle-follow-button" id="follow" value="{{ viewed_user.username }}">Follow</button>
+                </div>
+                {% else %}
+                <div class="follow-button-container">
+                    <button class="toggle-follow-button" id="unfollow" value="{{ viewed_user.username }}">Following</button>
+                </div>
+                {% endif %}
             {% endif %}
         </div>
-
+        
         <div class="profile-bio-container">
             <div style="font-size: 22px"><strong>{{ viewed_user.first_name }} {{ viewed_user.last_name }}</strong></div>
             <div style="font-size: 16px; color: gray">@{{ viewed_user.username }}</div>
@@ -23,9 +29,9 @@
                 I like food and travel.
             </div>
         </div>
-                
+        
         <div class="profile-following">
-            # Following # Followers
+            <b>{{ following_count }}</b> <span style="font-size: 16px; color: gray">Following</span> <b>{{ follower_count }}</b> <span class="follower-count" style="font-size: 16px; color: gray">Followers</span>
         </div>
     </div>
 

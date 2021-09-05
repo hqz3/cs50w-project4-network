@@ -5,16 +5,47 @@ likeButtons.forEach(button => button.addEventListener('click', handleLikeClick))
 function handleLikeClick(e) {
     let postID = e.currentTarget.getAttribute('value');
     fetch(`/post/${postID}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.message);
-            let likeContainer = document.querySelector(`[value="${postID}"]`);
-            let likeCount = likeContainer.querySelector(".like-count");
-            likeCount.innerHTML = data.count;
-
-            if (data.currently_liked) likeContainer.style = "color: crimson";
-            else likeContainer.style = "color: black";
-        })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        let likeContainer = document.querySelector(`[value="${postID}"]`);
+        let likeCount = likeContainer.querySelector(".like-count");
+        likeCount.innerHTML = data.count;
+        
+        if (data.currently_liked) likeContainer.setAttribute("id", "liked");
+        else likeContainer.setAttribute("id", "not-liked");
+    })
 }
 
-// When user "follows" an account, update the user's following and the account's follower
+
+let toggleFollowButton = document.querySelector(".toggle-follow-button");
+toggleFollowButton.addEventListener('click', handleToggleFollowClick);
+
+function handleToggleFollowClick(e) {
+    let username = e.currentTarget.getAttribute('value');
+    fetch(`/profile/${username}/toggle_follow`)
+    .then(response => response.json())
+    .then(data => console.log(data.message))
+    
+    let action = e.currentTarget.getAttribute('id');
+    toggleFollowButton.setAttribute('id', action === "follow" ? "unfollow" : "follow");
+    action = e.currentTarget.getAttribute('id');
+    toggleFollowButton.textContent = action === "follow" ? "Follow" : "Following";
+
+    if (action === "unfollow") {
+        toggleFollowButton.addEventListener('mouseenter', handleUnfollowMouseOver);
+        toggleFollowButton.addEventListener('mouseleave', handleUnfollowMouseLeave);
+    }
+    else {
+        toggleFollowButton.removeEventListener('mouseenter', handleUnfollowMouseOver);
+        toggleFollowButton.removeEventListener('mouseleave', handleUnfollowMouseLeave);    
+    }
+}
+
+function handleUnfollowMouseOver(e) {
+    toggleFollowButton.textContent = "Unfollow";
+}
+
+function handleUnfollowMouseLeave(e) {
+    toggleFollowButton.textContent = "Following";
+}

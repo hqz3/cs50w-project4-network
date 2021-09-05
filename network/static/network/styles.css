@@ -180,11 +180,6 @@ body {
     justify-content: center;
 }
 
-.like-container:hover {
-    color: crimson;
-    cursor: pointer;
-}
-
 .like {
     margin-right: 4px;
 }
@@ -199,6 +194,12 @@ body {
 
 #not-liked {
     color: black;
+}
+
+#liked:hover, #not-liked:hover {
+    cursor: pointer;
+    border-color: crimson;
+    color: crimson;
 }
 
 
@@ -216,10 +217,6 @@ body {
     justify-content: space-between;
 }
 
-.image-container {
-
-}
-
 .image-container img {    
     border-bottom: 1px solid gainsboro;;
     border-radius: 100%;
@@ -232,7 +229,7 @@ body {
     margin-top: auto;
 }
 
-.follow-button {
+#follow {
     background-color: black;
     border: none;
     border-radius: 25px;
@@ -241,8 +238,28 @@ body {
     padding: 5px 20px 5px 20px;
 }
 
-.follow-button:focus {
+#follow {
     outline: none;
+}
+
+#unfollow {
+    background-color: white;
+    border: 1px solid gainsboro;
+    border-radius: 25px;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px 20px 5px 20px;
+    transition: background-color 0.1s ease-in;
+}
+
+#unfollow:focus {
+    outline: none;
+}
+
+#unfollow:hover {
+    background-color: #fad1d0;
+    color: crimson;
 }
 
 .profile-bio {
@@ -252,6 +269,7 @@ body {
 .profile-following {
     font-size: 16px;
 }
+
 
 /* Right Pane */
 

@@ -2,11 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
+from django.http.request import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from . models import User, Post
+from . models import Follow, User, Post
 
 
 def index(request):
@@ -100,13 +101,46 @@ def update_likes(request, post_id):
         return JsonResponse({"message": "Post not found"}, status=400)
 
 
-def profile(request, user):
-    viewed_user = User.objects.all().get(username=user)
-    print(viewed_user.likes.all())
-    print(viewed_user.posts.all())
+def profile(request, username):
+    current_user = User.objects.get(username=request.user)
+    viewed_user = User.objects.get(username=username)
     viewed_user_posts = viewed_user.posts.all().order_by('-timestamp')
+    viewed_following = viewed_user.following.all()
+    viewed_followers = viewed_user.followers.all()
+
+    currently_followed = False
+    current_following = current_user.following.all()
+    for followed in current_following:
+        if viewed_user == followed.following:
+            currently_followed = True
+            break
+
     context = {
+        "currently_followed": currently_followed,
+        "following_count": viewed_following.count(),
+        "follower_count": viewed_followers.count(),
         "viewed_user": viewed_user,
         "viewed_user_posts": viewed_user_posts,
     }
     return render(request, "network/profile.html", context)
+
+
+# Create a new Follow instance for the current user
+def toggle_follow(request, username):
+    current_user = User.objects.get(username=request.user)
+    viewed_user = User.objects.get(username=username)
+    
+    currently_following = current_user.following.all()
+    already_followed = False
+    
+    for followed in currently_following:
+        if viewed_user == followed.following:
+            already_followed = True
+            followed.delete()
+            break
+    if already_followed:
+        return JsonResponse({"message": "Unfollowed"})
+    else:
+        follow = Follow(user=request.user, following=viewed_user)
+        follow.save()
+        return JsonResponse({"message": "Followed"})
