@@ -5,6 +5,7 @@ from django.db import models
 class User(AbstractUser):
     pass
 
+
 class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="posts")
     body = models.TextField(blank=True, max_length=280)
@@ -19,6 +20,7 @@ class Post(models.Model):
     
     def total_likes(self):
         return self.likes.count()
+
 
 class Follow(models.Model):
     user = models.ForeignKey("User", blank=False, on_delete=models.CASCADE, related_name="following")

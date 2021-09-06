@@ -27,12 +27,15 @@ function handleLikeClick(e) {
 const followerCount = document.querySelector(".follower-count");
 
 const toggleFollowButton = document.querySelector(".toggle-follow-button");
-if (toggleFollowButton.id === "unfollow") {
-    toggleFollowButton.addEventListener('mouseenter', handleUnfollowMouseOver);
-    toggleFollowButton.addEventListener('mouseleave', handleUnfollowMouseLeave);
-}
 
-toggleFollowButton.addEventListener('click', handleToggleFollowClick);
+if (toggleFollowButton) {
+    toggleFollowButton.addEventListener('click', handleToggleFollowClick);
+    
+    if (toggleFollowButton.id === "unfollow") {
+        toggleFollowButton.addEventListener('mouseenter', handleUnfollowMouseOver);
+        toggleFollowButton.addEventListener('mouseleave', handleUnfollowMouseLeave);
+    }
+}    
 
 function handleToggleFollowClick(e) {
     let username = e.currentTarget.getAttribute('value');

@@ -74,13 +74,25 @@
         </div>
         
         <div class="right-pane">
+            {% if user.is_authenticated %}
             <div class="who-to-follow-container">
                 <div class="who-to-follow">
-                    <p>Who to follow</p>
+                    <!-- Recommend three users to follow -->
+                        <p>Who to follow</p>
+                        {% for user in recommend_follow %}
+                        <div class="recommend-follow">
+                            <div class="profile-pic">
+                                PIC
+                            </div>
+                            <div class="recommend-user">
+                                <a href="/profile/{{ user.username }}"><div>{{ user.first_name }} {{ user.last_name }}</div></a>
+                                <div>@{{ user.username }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
                 </div>
-                <!-- Recommend three users to follow -->
-                <div class="users-to-follow"></div>
             </div>
+            {% endif %}
         </div>
         {% block script %}
         <script src="{% static 'network/script.js' %}"></script>

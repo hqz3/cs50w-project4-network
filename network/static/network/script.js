@@ -2,7 +2,9 @@
 const postBody = document.querySelector(".new-post-form textarea");
 const postButton = document.querySelector(".submit-container input");
 
-postBody.addEventListener('keyup', handlePostBodyInput);
+if (postBody) {
+    postBody.addEventListener('keyup', handlePostBodyInput);
+}
 
 function handlePostBodyInput(e) {
     if (postBody.value === "") {
@@ -33,12 +35,10 @@ function handleLikeClick(e) {
             if (data.currently_liked) {
                 likeContainer.setAttribute("id", "liked");
                 likeContainer.title = "Unlike";
-                // likeContainer.setAttribute("title", "Unlike");
-            } 
+            }
             else {
                 likeContainer.setAttribute("id", "not-liked");
                 likeContainer.title = "Like";
-                // likeContainer.setAttribute("title", "Like");
             }
         })
 }

@@ -290,6 +290,7 @@ body {
     margin-left: 30px;
     height: 275px;
     width: 275px;
+    border: 1px solid cyan;
 }
 
 .who-to-follow {
@@ -298,9 +299,30 @@ body {
     padding: 15px;
     height: 100%;
     width: 100%;
+    border: 1px solid red;
+    display: grid;
+    grid-template-rows: .25fr 1fr 1fr 1fr;
+    
 }
 
 .who-to-follow p {
+    border: 1px solid greenyellow;
     font-size: 20px;
     font-weight: bold;
+    height: 100%;
+}
+
+.recommend-follow {
+    border: 1px solid cyan;
+    height: 100%;
+    font-size: 14px;
+    display: flex;
+}
+
+.recommend-user div:nth-child(1) {
+    font-weight: bold;
+}
+
+.recommend-user div:nth-child(2) {
+    color: gray;
 }

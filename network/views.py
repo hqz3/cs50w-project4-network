@@ -1,4 +1,9 @@
+import json
+from re import S
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import AnonymousUser
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
@@ -6,15 +11,9 @@ from django.http.request import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+import random
 
 from . models import Follow, User, Post
-
-
-def index(request):
-    # Show all of the current user's posts
-    posts = Post.objects.all().order_by('-timestamp')
-    context = {"posts": posts}
-    return render(request, "network/index.html", context)
 
 
 def login_view(request):
@@ -71,6 +70,33 @@ def register(request):
         return render(request, "network/register.html")
 
 
+def index(request):
+    # Show all of the current user's posts
+    posts = Post.objects.all().order_by('-timestamp')
+    if request.user.is_anonymous:
+        context = {"posts": posts}
+    else:
+        context = {
+            "posts": posts,
+            "recommend_follow": recommend_follow(request),
+        }
+    return render(request, "network/index.html", context)
+
+
+def following(request):
+    current_user = User.objects.get(username=request.user)
+    currently_following = current_user.following.all()
+    followed_posts = []
+    for user in currently_following:
+        followed_posts += (user.following.posts.all())
+    followed_posts.sort(key=lambda post: post.timestamp, reverse=True)
+    context = {
+        "followed_posts": followed_posts,
+        "recommend_follow": recommend_follow(request), 
+    }
+    return render(request, "network/following.html", context)
+
+
 # Add new post into database
 def post(request):
     if request.method == "POST":
@@ -98,23 +124,26 @@ def profile(request, username):
         "currently_followed": currently_followed,
         "following_count": viewed_following.count(),
         "follower_count": viewed_followers.count(),
+        "recommend_follow": recommend_follow(request),
         "viewed_user": viewed_user,
         "viewed_user_posts": viewed_user_posts,
     }
     return render(request, "network/profile.html", context)
 
 
-def following(request):
+def recommend_follow(request):
     current_user = User.objects.get(username=request.user)
-    currently_following = current_user.following.all()
-    followed_posts = []
-    for user in currently_following:
-        followed_posts += (user.following.posts.all())
-    followed_posts.sort(key=lambda post: post.timestamp, reverse=True)
-    context = {
-        "followed_posts": followed_posts, 
-    }
-    return render(request, "network/following.html", context)
+    not_following = User.objects.exclude(
+        followers__user=current_user
+    ).exclude(username=current_user)
+    
+    if len(not_following) > 3:
+        sample_size = 3
+    else:
+        sample_size = len(not_following)
+    
+    not_following = random.sample(list(not_following), sample_size)
+    return not_following
 
 
 # Create a new Follow instance for the current user
