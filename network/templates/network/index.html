@@ -33,7 +33,9 @@
                     <div>
                         <a href="/profile/{{ post.user.username }}"><b>{{ post.user.first_name }} {{ post.user.last_name }}</a> </b> @{{ post.user.username }} · {{ post.get_time }}
                     </div>
+                    {% if post.user == request.user %}
                     <a class="edit" href=""#>Edit</a>
+                    {% endif %}
                 </div>
                 
                 <div class="post-body">
