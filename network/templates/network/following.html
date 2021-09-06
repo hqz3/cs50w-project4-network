@@ -1,0 +1,45 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    {% for post in followed_posts %}
+    <div class="post-outer-container">
+        <div class="post-container">
+            <div class="profile-pic">
+                PIC
+            </div>
+            <div class="post-body-container">
+                <div class="post-body-top">
+                    <div>
+                        <a href="/profile/{{ post.user.username }}"><b>{{ post.user.first_name }} {{ post.user.last_name }}</a> </b> @{{ post.user.username }} · {{ post.get_time }}
+                    </div>
+                    {% if post.user == request.user %}
+                    <a class="edit" href=""#>Edit</a>
+                    {% endif %}
+                </div>
+                
+                <div class="post-body">
+                    {{ post.body }}
+                </div>
+                
+                {% if user.is_authenticated %}
+                <div class="post-options">
+                    <li>Comment</li>
+                    <li>Retweet</li>
+                    {% if request.user in post.likes.all %}
+                    <li class="like-container" id="liked" title="Unlike" value="{{ post.id }}">
+                        <div class="like">Like</div>
+                            <div class="like-count">{{ post.total_likes }}</div>
+                    </li>
+                    {% else %}
+                    <li class="like-container" id="not-liked" title="Like" value="{{ post.id }}">
+                        <div class="like">Like</div>
+                            <div class="like-count">{{ post.total_likes }}</div>
+                    </li>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

@@ -80,27 +80,6 @@ def post(request):
     return HttpResponseRedirect(reverse(index))
 
 
-# Update the like count for a post
-@csrf_exempt
-def update_likes(request, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-        currently_liked = None
-        if (request.user in post.likes.all()):
-            post.likes.remove(request.user)
-            currently_liked = False
-        else:
-            post.likes.add(request.user)
-            currently_liked = True
-        return JsonResponse({
-            "message": "Like updated",
-            "count": post.total_likes(),
-            "currently_liked": currently_liked,
-        })
-    except:
-        return JsonResponse({"message": "Post not found"}, status=400)
-
-
 def profile(request, username):
     current_user = User.objects.get(username=request.user)
     viewed_user = User.objects.get(username=username)
@@ -123,6 +102,19 @@ def profile(request, username):
         "viewed_user_posts": viewed_user_posts,
     }
     return render(request, "network/profile.html", context)
+
+
+def following(request):
+    current_user = User.objects.get(username=request.user)
+    currently_following = current_user.following.all()
+    followed_posts = []
+    for user in currently_following:
+        followed_posts += (user.following.posts.all())
+    followed_posts.sort(key=lambda post: post.timestamp, reverse=True)
+    context = {
+        "followed_posts": followed_posts, 
+    }
+    return render(request, "network/following.html", context)
 
 
 # Create a new Follow instance for the current user
@@ -148,3 +140,24 @@ def toggle_follow(request, username):
         return JsonResponse(
             {"message": "Followed",
             "viewed_user_followers": viewed_user.followers.all().count()})
+
+
+# Update the like count for a post
+@csrf_exempt
+def update_likes(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+        currently_liked = None
+        if (request.user in post.likes.all()):
+            post.likes.remove(request.user)
+            currently_liked = False
+        else:
+            post.likes.add(request.user)
+            currently_liked = True
+        return JsonResponse({
+            "message": "Like updated",
+            "count": post.total_likes(),
+            "currently_liked": currently_liked,
+        })
+    except:
+        return JsonResponse({"message": "Post not found"}, status=400)
