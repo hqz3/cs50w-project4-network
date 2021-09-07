@@ -8,7 +8,7 @@
         </div>
         
         <div class="new-post-form">
-            <form action="{% url 'post' %}" method="post">
+            <form action="{% url 'add-post' %}" method="post">
                 {% csrf_token %}
                 <textarea maxlength="280" rows="2" name="body" placeholder="What's happening?" required></textarea>
                 <div class="submit-container">
@@ -36,7 +36,7 @@
                         {% endif %}
                     </div>
                     {% if post.user == request.user %}
-                    <a class="edit" href=""#>Edit</a>
+                    <a class="edit" href="#" value="{{ post.id }}">Edit</a>
                     {% endif %}
                 </div>
                 

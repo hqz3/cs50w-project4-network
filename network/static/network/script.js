@@ -1,11 +1,8 @@
-// Post submit button enabled only after user inputs text
 const postBody = document.querySelector(".new-post-form textarea");
 const postButton = document.querySelector(".submit-container input");
+if (postBody) postBody.addEventListener('keyup', handlePostBodyInput);
 
-if (postBody) {
-    postBody.addEventListener('keyup', handlePostBodyInput);
-}
-
+// Post submit button enabled only after user inputs text
 function handlePostBodyInput(e) {
     if (postBody.value === "") {
         postButton.disabled = true;
@@ -18,13 +15,21 @@ function handlePostBodyInput(e) {
 }
 
 
+const editButton = document.querySelector(".edit");
+if (editButton) editButton.addEventListener('click', handleEditClick);
+
+function handleEditClick(e) {
+
+}
+
+
 // When user "likes" a post, update its "Like" count in the database
-const likeButtons = document.querySelectorAll(".like-container");
+export const likeButtons = document.querySelectorAll(".like-container");
 likeButtons.forEach(button => button.addEventListener('click', handleLikeClick));
 
-function handleLikeClick(e) {
+export function handleLikeClick(e) {
     let postID = e.currentTarget.getAttribute('value');
-    fetch(`post/${postID}`)
+    fetch(`/post/${postID}`)
         .then(response => response.json())
         .then(data => {
             console.log(data.message);

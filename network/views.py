@@ -153,10 +153,8 @@ def recommend_follow(request):
         followers__user=current_user
     ).exclude(username=current_user)
     
-    if len(not_following) > 3:
-        sample_size = 3
-    else:
-        sample_size = len(not_following)
+    if len(not_following) > 3: sample_size = 3
+    else: sample_size = len(not_following)
     
     not_following = random.sample(list(not_following), sample_size)
     return not_following
