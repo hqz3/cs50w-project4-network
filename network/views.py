@@ -70,8 +70,8 @@ def register(request):
         return render(request, "network/register.html")
 
 
+# Show all of current user's posts
 def index(request):
-    # Show all of the current user's posts
     posts = Post.objects.all().order_by('-timestamp')
     if request.user.is_anonymous:
         context = {"posts": posts}
@@ -81,6 +81,41 @@ def index(request):
             "recommend_follow": recommend_follow(request),
         }
     return render(request, "network/index.html", context)
+
+
+# Add new post into database
+def add_post(request):
+    if request.method == "POST":
+        body = request.POST["body"]
+        post = Post(user=request.user, body=body)
+        post.save()
+    return HttpResponseRedirect(reverse(index))
+
+
+# Edit selected post
+def edit_post(request, post_id):
+    None
+    
+
+# Update the like count for a post
+@csrf_exempt
+def update_likes(request, post_id):
+    try:
+        post = Post.objects.get(id=post_id)
+        currently_liked = None
+        if (request.user in post.likes.all()):
+            post.likes.remove(request.user)
+            currently_liked = False
+        else:
+            post.likes.add(request.user)
+            currently_liked = True
+        return JsonResponse({
+            "message": "Like updated",
+            "count": post.total_likes(),
+            "currently_liked": currently_liked,
+        })
+    except:
+        return JsonResponse({"message": "Post not found"}, status=400)
 
 
 def following(request):
@@ -97,36 +132,17 @@ def following(request):
     return render(request, "network/following.html", context)
 
 
-# Add new post into database
-def post(request):
-    if request.method == "POST":
-        body = request.POST["body"]
-        post = Post(user=request.user, body=body)
-        post.save()
-    return HttpResponseRedirect(reverse(index))
-
-
 def profile(request, username):
     current_user = User.objects.get(username=request.user)
     viewed_user = User.objects.get(username=username)
-    viewed_user_posts = viewed_user.posts.all().order_by('-timestamp')
-    viewed_following = viewed_user.following.all()
-    viewed_followers = viewed_user.followers.all()
-
-    currently_followed = False
-    current_following = current_user.following.all()
-    for followed in current_following:
-        if viewed_user == followed.following:
-            currently_followed = True
-            break
-
+    
     context = {
-        "currently_followed": currently_followed,
-        "following_count": viewed_following.count(),
-        "follower_count": viewed_followers.count(),
+        "currently_followed": len(Follow.objects.filter(user=current_user).filter(following=viewed_user)),
+        "follower_count": viewed_user.followers.all().count(),
+        "following_count": viewed_user.following.all().count(),
         "recommend_follow": recommend_follow(request),
         "viewed_user": viewed_user,
-        "viewed_user_posts": viewed_user_posts,
+        "viewed_user_posts": viewed_user.posts.all().order_by('-timestamp'),
     }
     return render(request, "network/profile.html", context)
 
@@ -151,15 +167,10 @@ def toggle_follow(request, username):
     current_user = User.objects.get(username=request.user)
     viewed_user = User.objects.get(username=username)
 
-    currently_following = current_user.following.all()
-    already_followed = False
-    
-    for followed in currently_following:
-        if viewed_user == followed.following:
-            already_followed = True
-            followed.delete()
-            break
-    if already_followed:
+    following = (Follow.objects.filter(user=current_user).filter(following=viewed_user))
+
+    if len(following):
+        following[0].delete()
         return JsonResponse(
             {"message": "Unfollowed",
             "viewed_user_followers": viewed_user.followers.all().count()})
@@ -169,24 +180,3 @@ def toggle_follow(request, username):
         return JsonResponse(
             {"message": "Followed",
             "viewed_user_followers": viewed_user.followers.all().count()})
-
-
-# Update the like count for a post
-@csrf_exempt
-def update_likes(request, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-        currently_liked = None
-        if (request.user in post.likes.all()):
-            post.likes.remove(request.user)
-            currently_liked = False
-        else:
-            post.likes.add(request.user)
-            currently_liked = True
-        return JsonResponse({
-            "message": "Like updated",
-            "count": post.total_likes(),
-            "currently_liked": currently_liked,
-        })
-    except:
-        return JsonResponse({"message": "Post not found"}, status=400)
