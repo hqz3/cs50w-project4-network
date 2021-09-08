@@ -36,18 +36,16 @@
                         {% endif %}
                     </div>
                     {% if post.user == request.user %}
-                    <a class="edit" data-post-id="{{ post.id }}" href="#" data-status="close">Edit</a>
+                    <a class="edit" data-post-id="{{ post.id }}" href="#">Edit</a>
                     {% endif %}
                 </div>
                 
-                <div class="post-body" data-post-id="{{ post.id }}">
+                <div class="post-body" data-post-id="{{ post.id }}" data-status="close">
                     <div class="original-post">{{ post.body }}</div>
-                    <form class="edit-form display-hide" action="edit-post/{{ post.id }}" method="POST">
-                        {% csrf_token %}
+                    <form class="edit-form display-hide">
                         <textarea maxlength="280" rows="2" name="body" required>{{ post.body }}</textarea>
-                        <button type="submit">Submit</button>
+                        <button class="save-button" data-post-id="{{ post.id }}" type="">Save</button>
                     </form>
-                        
                 </div>
                 
                 {% if user.is_authenticated %}

@@ -65,14 +65,16 @@ body {
     display: flex;
     justify-content: center;
     padding: 10px 0 10px 0;
-    transition: filter 0.25s
+    transition: filter 0.25s;
 }
 
-.logout:hover, .register:hover {
+.logout:hover, .register:hover, .save-button:hover {
     filter: brightness(.9);
 }
 
+
 /* BODY */
+
 
 .body {
     border-left: 1px solid gainsboro;
@@ -155,6 +157,24 @@ body {
 .post-body-top {
     display: flex;
     justify-content: space-between;
+}
+
+.edit-form {
+    text-align: right;
+}
+
+.save-button {
+    background-color: crimson;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    height: 2em;
+    margin-bottom: .5em;
+    transition: filter 0.25s;
+}
+
+.save-button:focus {
+    outline: none;
 }
 
 .post-options {
@@ -323,7 +343,9 @@ body {
     color: gray;
 }
 
+
 /* Function */
+
 
 .display-hide {
     display: none;

@@ -1,6 +1,7 @@
 import json
 from re import S
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
@@ -93,24 +94,35 @@ def add_post(request):
 
 
 # Edit selected post
+@csrf_exempt
 def edit_post(request, post_id):
-    if request.method == "POST":
-        print('yesss')
-        return HttpResponse('yes')
-    elif request.method == "GET":
-        current_post = Post.objects.get(id=post_id)
+    try:
+        post = Post.objects.get(id=post_id)
+        if (request.user != post.user):
+            return JsonResponse({"error": "User may only edit their own post"})
+    except:
+        return JsonResponse({"error": "Post not found"})
+
+    if request.method == "PUT":
+        data = (json.loads(request.body))
+        content = data.get("content")
+        post.body = content
+        post.save()
         return JsonResponse({
-            "body": current_post.body,
+            "message": "Post successfully edited",
+            "content": post.body,
         })
-    
+    else:
+        return JsonResponse({"error": "PUT request required"}, status=400)
 
 # Update the like count for a post
 @csrf_exempt
+@login_required
 def update_likes(request, post_id):
     try:
-        post = Post.objects.get(id=post_id)
         currently_liked = None
-        if (request.user in post.likes.all()):
+        post = Post.objects.get(id=post_id)
+        if request.user in post.likes.all():
             post.likes.remove(request.user)
             currently_liked = False
         else:

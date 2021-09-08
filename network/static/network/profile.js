@@ -1,5 +1,10 @@
-import { likeButtons, handleLikeClick } from './script.js';
+import { likeButtons, handleLikeClick, editButtons, handleEditClick } from './script.js';
 likeButtons.forEach(button => button.addEventListener('click', handleLikeClick));
+
+console.log(editButtons)
+if (editButtons.length) editButtons.forEach(button => {
+    button.addEventListener('click', handleEditClick);
+})
 
 
 // Update following/followers count when toggling "Follow" button
@@ -13,7 +18,7 @@ if (toggleFollowButton) {
         toggleFollowButton.addEventListener('mouseenter', handleUnfollowMouseOver);
         toggleFollowButton.addEventListener('mouseleave', handleUnfollowMouseLeave);
     }
-}    
+}
 
 function handleToggleFollowClick(e) {
     let username = e.currentTarget.getAttribute('value');

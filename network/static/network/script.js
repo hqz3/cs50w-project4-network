@@ -2,7 +2,7 @@ const postBody = document.querySelector(".new-post-form textarea");
 const postButton = document.querySelector(".submit-container input");
 if (postBody) postBody.addEventListener('keyup', handlePostBodyInput);
 
-// Post submit button enabled only after user inputs text
+// Post submit button enabled after user inputs text
 function handlePostBodyInput(e) {
     if (postBody.value === "") {
         postButton.disabled = true;
@@ -14,36 +14,63 @@ function handlePostBodyInput(e) {
     } 
 }
 
+
 // Toggling edit buttons
-const editButtons = document.querySelectorAll(".edit");
+export const editButtons = document.querySelectorAll(".edit");
 if (editButtons.length) editButtons.forEach(button => {
     button.addEventListener('click', handleEditClick);
 })
 
-async function handleEditClick(e) {
+export async function handleEditClick(e) {
     let postID = e.currentTarget.dataset.postId;
     let postBody = document.querySelector(`div[data-post-id="${postID}"]`);
-    let originalPost = postBody.querySelector(".original-post");
-    let editForm = postBody.querySelector(".edit-form");
-    
-    if (e.currentTarget.dataset.status === 'close') {
-        // let response = await fetch(`/edit-post/${postID}`);
-        // let data = await response.json();
-
-        originalPost.classList.add("display-hide");
-        editForm.classList.remove("display-hide");
-        e.currentTarget.dataset.status = 'open';
+    let originalPost = postBody.querySelector('.original-post');
+    let editForm = postBody.querySelector('.edit-form');
+    let saveButton = editForm.querySelector('.save-button');
+    if (postBody.dataset.status === 'close') {
+        originalPost.classList.add('display-hide');
+        editForm.classList.remove('display-hide');
+        postBody.dataset.status = 'open';
+        // Add eventListener for "Save button"
+        saveButton.addEventListener('click', handleSaveClick)
     }
     else {
-        originalPost.classList.remove("display-hide")
-        editForm.classList.add("display-hide");
-        e.currentTarget.dataset.status = 'close';
+        originalPost.classList.remove('display-hide');
+        editForm.classList.add('display-hide');
+        // Reset the edit form's textarea
+        editForm.querySelector("textarea").value = originalPost.textContent;
+        postBody.dataset.status = 'close';
+        // Remove eventListener for "Save button"
+        saveButton.removeEventListener('click', handleSaveClick)
     }
-
 }
 
+// Save edited post into database
+async function handleSaveClick(e) {
+    e.preventDefault();
+    let postID = (e.currentTarget.dataset.postId)
+    let postBody = document.querySelector(`div[data-post-id="${postID}"]`);
+    let content = postBody.querySelector('textarea').value;
 
-// When user "likes" a post, update its "Like" count in the database
+    let response = await fetch(`/edit-post/${postID}`, {
+        method: "PUT",
+        body: JSON.stringify({"content": content}),
+    });
+    let data = await response.json();
+
+    // Update original post shown on webpage
+    let originalPost = postBody.querySelector('.original-post');
+    originalPost.textContent = data.content;
+    
+    // Hide edit form and show updated post
+    let editForm = postBody.querySelector('.edit-form');
+    editForm.classList.add('display-hide');
+    originalPost.classList.remove('display-hide');
+    postBody.dataset.status = 'close';
+}
+ 
+
+// When user "likes" a post, update its "Like" count in database
 export const likeButtons = document.querySelectorAll(".like-container");
 likeButtons.forEach(button => button.addEventListener('click', handleLikeClick));
 

@@ -48,13 +48,18 @@
                         <b>{{ post.user.first_name }} {{ post.user.last_name }}</b> @{{ post.user.username }}</a> · {{ post.get_time }}
                     </div>
                     {% if post.user == request.user %}
-                    <a class="edit" href=""#>Edit</a>
+                    <a class="edit" data-post-id="{{ post.id }}" href="#">Edit</a>
                     {% endif %}
                 </div>
-                <div class="post-body">
-                    {{ post.body }}
-                </div>
                 
+                <div class="post-body" data-post-id="{{ post.id }}" data-status="close">
+                    <div class="original-post">{{ post.body }}</div>
+                    <form class="edit-form display-hide">
+                        <textarea maxlength="280" rows="2" name="body" required>{{ post.body }}</textarea>
+                        <button class="save-button" data-post-id="{{ post.id }}" type="">Save</button>
+                    </form>
+                </div>
+
                 {% if user.is_authenticated %}
                 <div class="post-options">
                     <li>Comment</li>
