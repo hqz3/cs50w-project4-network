@@ -8,7 +8,7 @@
         </div>
         
         <div class="new-post-form">
-            <form action="{% url 'add-post' %}" method="post">
+            <form action="{% url 'add-post' %}" method="POST">
                 {% csrf_token %}
                 <textarea maxlength="280" rows="2" name="body" placeholder="What's happening?" required></textarea>
                 <div class="submit-container">
@@ -16,10 +16,10 @@
                 </div>
             </form>
         </div>
-            
+        
     </div>
     {% endif %}
-
+    
     {% for post in posts %}
     <div class="post-outer-container">
         <div class="post-container">
@@ -36,12 +36,18 @@
                         {% endif %}
                     </div>
                     {% if post.user == request.user %}
-                    <a class="edit" href="#" value="{{ post.id }}">Edit</a>
+                    <a class="edit" data-post-id="{{ post.id }}" href="#" data-status="close">Edit</a>
                     {% endif %}
                 </div>
                 
-                <div class="post-body">
-                    {{ post.body }}
+                <div class="post-body" data-post-id="{{ post.id }}">
+                    <div class="original-post">{{ post.body }}</div>
+                    <form class="edit-form display-hide" action="edit-post/{{ post.id }}" method="POST">
+                        {% csrf_token %}
+                        <textarea maxlength="280" rows="2" name="body" required>{{ post.body }}</textarea>
+                        <button type="submit">Submit</button>
+                    </form>
+                        
                 </div>
                 
                 {% if user.is_authenticated %}

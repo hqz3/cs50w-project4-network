@@ -94,7 +94,14 @@ def add_post(request):
 
 # Edit selected post
 def edit_post(request, post_id):
-    None
+    if request.method == "POST":
+        print('yesss')
+        return HttpResponse('yes')
+    elif request.method == "GET":
+        current_post = Post.objects.get(id=post_id)
+        return JsonResponse({
+            "body": current_post.body,
+        })
     
 
 # Update the like count for a post

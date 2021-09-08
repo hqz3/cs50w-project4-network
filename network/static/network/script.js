@@ -14,11 +14,31 @@ function handlePostBodyInput(e) {
     } 
 }
 
+// Toggling edit buttons
+const editButtons = document.querySelectorAll(".edit");
+if (editButtons.length) editButtons.forEach(button => {
+    button.addEventListener('click', handleEditClick);
+})
 
-const editButton = document.querySelector(".edit");
-if (editButton) editButton.addEventListener('click', handleEditClick);
+async function handleEditClick(e) {
+    let postID = e.currentTarget.dataset.postId;
+    let postBody = document.querySelector(`div[data-post-id="${postID}"]`);
+    let originalPost = postBody.querySelector(".original-post");
+    let editForm = postBody.querySelector(".edit-form");
+    
+    if (e.currentTarget.dataset.status === 'close') {
+        // let response = await fetch(`/edit-post/${postID}`);
+        // let data = await response.json();
 
-function handleEditClick(e) {
+        originalPost.classList.add("display-hide");
+        editForm.classList.remove("display-hide");
+        e.currentTarget.dataset.status = 'open';
+    }
+    else {
+        originalPost.classList.remove("display-hide")
+        editForm.classList.add("display-hide");
+        e.currentTarget.dataset.status = 'close';
+    }
 
 }
 

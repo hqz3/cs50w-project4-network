@@ -107,7 +107,7 @@ body {
     width: 100%;
 }
 
-.new-post-form textarea {
+.new-post-form textarea, .post-body textarea {
     border-radius: 5px;
     outline: none;
     resize: none;
@@ -155,10 +155,6 @@ body {
 .post-body-top {
     display: flex;
     justify-content: space-between;
-}
-
-.post-body {
-    /* background-color: gold; */
 }
 
 .post-options {
@@ -325,4 +321,10 @@ body {
 
 .recommend-user div:nth-child(2) {
     color: gray;
+}
+
+/* Function */
+
+.display-hide {
+    display: none;
 }
