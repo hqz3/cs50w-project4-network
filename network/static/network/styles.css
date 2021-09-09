@@ -75,7 +75,6 @@ body {
 
 /* BODY */
 
-
 .body {
     border-left: 1px solid gainsboro;
     border-right: 1px solid gainsboro;
@@ -88,7 +87,7 @@ body {
     display: none;
   }
 
-.all-posts-title {
+.page-title {
     background-color: white;
     border-top: 1px solid gainsboro;
     border-bottom: 1px solid gainsboro;
@@ -159,6 +158,14 @@ body {
     justify-content: space-between;
 }
 
+.edit {
+    color: black;
+}
+
+.edit:hover {
+    text-decoration: none;
+}
+
 .edit-form {
     text-align: right;
 }
@@ -173,7 +180,7 @@ body {
     transition: filter 0.25s;
 }
 
-.save-button:focus {
+.save-button:hover {
     outline: none;
 }
 
@@ -220,7 +227,6 @@ body {
 
 
 /* Profile */
-
 
 .profile-container {
     padding: 15px;
@@ -269,7 +275,7 @@ body {
     transition: background-color 0.1s ease-in;
 }
 
-#unfollow:focus {
+#unfollow:hover {
     outline: none;
 }
 
@@ -294,7 +300,6 @@ body {
 
 
 /* Right Pane */
-
 
 .right-pane {
     display: block;
@@ -344,8 +349,26 @@ body {
 }
 
 
-/* Function */
+/* Pagination */
 
+.pagination {
+    padding: 15px 15px 15px 0px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#first, #last, #prev, #next {
+    border: 1px solid black;
+    border-radius: 2.5px;
+    padding: 5px 10px 5px 10px;
+}
+
+#first:hover, #last:hover, #prev:hover, #next:hover {
+    text-decoration: none;
+    background-color: whitesmoke;
+}
+
+/* Function */
 
 .display-hide {
     display: none;

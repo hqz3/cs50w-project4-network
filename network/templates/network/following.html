@@ -1,7 +1,9 @@
 {% extends "network/layout.html" %}
 
+{% block title %}Following{% endblock %}
 {% block body %}
-    {% for post in followed_posts %}
+    <div class="page-title">Following</div>
+    {% for post in page_obj %}
     <div class="post-outer-container">
         <div class="post-container">
             <div class="profile-pic">
@@ -42,4 +44,25 @@
         </div>
     </div>
     {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a id="first" href="?page=1">First</a>
+                <a id="prev" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+            {% else %}
+                <a id="prev" href="#" style="pointer-events: none;">&laquo;</a>
+            {% endif %}
+            
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a id="next" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                <a id="last" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% else %}
+                <a id="next" href="#" style="pointer-events: none;">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 {% endblock %}

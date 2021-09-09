@@ -3,86 +3,106 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-
-    <div class="profile-container">
-        <div class="profile-top">
-            <div class="image-container">
-                <img src="{% static 'images/default-profile.jpeg' %}">
-            </div>
-            {% if request.user.username != viewed_user.username %}
-                {% if currently_followed == False %}
-                <div class="follow-button-container">
-                    <button class="toggle-follow-button" id="follow" title="Follow" value="{{ viewed_user.username }}">Follow</button>
+        <div class="profile-container">
+            <div class="profile-top">
+                <div class="image-container">
+                    <img src="{% static 'images/default-profile.jpeg' %}">
                 </div>
-                {% else %}
-                <div class="follow-button-container">
-                    <button class="toggle-follow-button" id="unfollow" title="Unfollow" value="{{ viewed_user.username }}">Following</button>
-                </div>
-                {% endif %}
-            {% endif %}
-        </div>
-        
-        <div class="profile-bio-container">
-            <div style="font-size: 22px"><strong>{{ viewed_user.first_name }} {{ viewed_user.last_name }}</strong></div>
-            <div style="font-size: 16px; color: gray">@{{ viewed_user.username }}</div>
-            <div class="profile-bio"> 
-                I like food and travel.
-            </div>
-        </div>
-        
-        <div class="profile-following">
-            <span class="following-count">{{ following_count }}</span> Following <span class="follower-count">{{ follower_count }}</span> Followers
-        </div>
-    </div>
-
-    {% for post in viewed_user_posts %}
-    <div class="post-outer-container">
-
-        <div class="post-container">
-            <div class="profile-pic">
-                PIC
-            </div>
-            <div class="post-body-container">
-                <div class="post-body-top">
-                    <div>
-                        <b>{{ post.user.first_name }} {{ post.user.last_name }}</b> @{{ post.user.username }}</a> · {{ post.get_time }}
-                    </div>
-                    {% if post.user == request.user %}
-                    <a class="edit" data-post-id="{{ post.id }}" href="#">Edit</a>
-                    {% endif %}
-                </div>
-                
-                <div class="post-body" data-post-id="{{ post.id }}" data-status="close">
-                    <div class="original-post">{{ post.body }}</div>
-                    <form class="edit-form display-hide">
-                        <textarea maxlength="280" rows="2" name="body" required>{{ post.body }}</textarea>
-                        <button class="save-button" data-post-id="{{ post.id }}" type="">Save</button>
-                    </form>
-                </div>
-
-                {% if user.is_authenticated %}
-                <div class="post-options">
-                    <li>Comment</li>
-                    <li>Retweet</li>
-                    {% if request.user in post.likes.all %}
-                    <li class="like-container" id="liked" title="Unlike" value="{{ post.id }}">
-                        <div class="like">Like</div>
-                            <div class="like-count">{{ post.total_likes }}</div>
-                    </li>
+                {% if request.user.username != viewed_user.username %}
+                    {% if currently_followed == False %}
+                        <div class="follow-button-container">
+                            <button class="toggle-follow-button" id="follow" title="Follow" value="{{ viewed_user.username }}">Follow</button>
+                        </div>
                     {% else %}
-                    <li class="like-container" id="not-liked" title="Like" value="{{ post.id }}">
-                        <div class="like">Like</div>
-                            <div class="like-count">{{ post.total_likes }}</div>
-                    </li>
+                        <div class="follow-button-container">
+                            <button class="toggle-follow-button" id="unfollow" title="Unfollow" value="{{ viewed_user.username }}">Following</button>
+                        </div>
                     {% endif %}
-                </div>
                 {% endif %}
             </div>
             
+            <div class="profile-bio-container">
+                <div style="font-size: 22px"><strong>{{ viewed_user.first_name }} {{ viewed_user.last_name }}</strong></div>
+                <div style="font-size: 16px; color: gray">@{{ viewed_user.username }}</div>
+                <div class="profile-bio"> 
+                    I like food and travel.
+                </div>
+            </div>
+            
+            <div class="profile-following">
+                <span class="following-count">{{ following_count }}</span> Following <span class="follower-count">{{ follower_count }}</span> Followers
+            </div>
         </div>
 
-    </div>
-    {% endfor %}
+        {% for post in viewed_user_posts %}
+            <div class="post-outer-container">
+
+                <div class="post-container">
+                    <div class="profile-pic">
+                        PIC
+                    </div>
+                    <div class="post-body-container">
+                        <div class="post-body-top">
+                            <div>
+                                <b>{{ post.user.first_name }} {{ post.user.last_name }}</b> @{{ post.user.username }}</a> · {{ post.get_time }}
+                            </div>
+                            {% if post.user == request.user %}
+                                <a class="edit" data-post-id="{{ post.id }}" href="#">Edit</a>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="post-body" data-post-id="{{ post.id }}" data-status="close">
+                            <div class="original-post">{{ post.body }}</div>
+                            <form class="edit-form display-hide">
+                                <textarea maxlength="280" rows="2" name="body" required>{{ post.body }}</textarea>
+                                <button class="save-button" data-post-id="{{ post.id }}" type="">Save</button>
+                            </form>
+                        </div>
+
+                        {% if user.is_authenticated %}
+                            <div class="post-options">
+                                <li>Comment</li>
+                                <li>Retweet</li>
+                                {% if request.user in post.likes.all %}
+                                    <li class="like-container" id="liked" title="Unlike" value="{{ post.id }}">
+                                        <div class="like">Like</div>
+                                            <div class="like-count">{{ post.total_likes }}</div>
+                                    </li>
+                                {% else %}
+                                    <li class="like-container" id="not-liked" title="Like" value="{{ post.id }}">
+                                        <div class="like">Like</div>
+                                            <div class="like-count">{{ post.total_likes }}</div>
+                                    </li>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+
+            </div>
+        {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if viewed_user_posts.has_previous %}
+                    <a id="first" href="?page=1">First</a>
+                    <a id="prev" href="?page={{ viewed_user_posts.previous_page_number }}">&laquo;</a>
+                {% else %}
+                    <a id="prev" href="#" style="pointer-events: none;">&laquo;</a>
+                {% endif %}
+                
+                <span class="current">
+                    Page {{ viewed_user_posts.number }} of {{ viewed_user_posts.paginator.num_pages }}
+                </span>
+                
+                {% if viewed_user_posts.has_next %}
+                    <a id="next" href="?page={{ viewed_user_posts.next_page_number }}">&raquo;</a>
+                    <a id="last" href="?page={{ viewed_user_posts.paginator.num_pages }}">Last</a>
+                {% else %}
+                    <a id="next" href="#" style="pointer-events: none;">&raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     {% endif %}
 
 {% endblock %}

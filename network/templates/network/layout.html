@@ -20,50 +20,50 @@
                         </div>
                     </div>
                     {% if user.is_authenticated %}
-                    <div class="navigation-item-container">
-                        <div class="navigation-item">
-                            <a class="navigation-link" href="{% url 'following' %}">Following</a>
+                        <div class="navigation-item-container">
+                            <div class="navigation-item">
+                                <a class="navigation-link" href="{% url 'following' %}">Following</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="navigation-item-container">
-                        <div class="navigation-item">
-                            <a class="navigation-link" href="#">Notifications</a>
+                        <div class="navigation-item-container">
+                            <div class="navigation-item">
+                                <a class="navigation-link" href="#">Notifications</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="navigation-item-container">
-                        <div class="navigation-item">
-                            <a class="navigation-link" href="#">Messages</a>
+                        <div class="navigation-item-container">
+                            <div class="navigation-item">
+                                <a class="navigation-link" href="#">Messages</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="navigation-item-container">
-                        <div class="navigation-item">
-                            <a class="navigation-link" href="#">Bookmarks</a>
+                        <div class="navigation-item-container">
+                            <div class="navigation-item">
+                                <a class="navigation-link" href="#">Bookmarks</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="navigation-item-container">
-                        <div class="navigation-item">
-                            <a class="navigation-link" href="#">Lists</a>
+                        <div class="navigation-item-container">
+                            <div class="navigation-item">
+                                <a class="navigation-link" href="#">Lists</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="navigation-item-container">
-                        <div class="navigation-item">
-                            <a class="navigation-link" href="/profile/{{ request.user }}">Profile</a>
+                        <div class="navigation-item-container">
+                            <div class="navigation-item">
+                                <a class="navigation-link" href="/profile/{{ request.user }}">Profile</a>
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                     {% if user.is_authenticated %}
-                    <div class="logout">
-                        <a class="navigation-link" href="{% url 'logout' %}">Log Out</a>
-                    </div>
-                    {% else %}
-                    <div class="navigation-item-container">
-                        <div class="navigation-item">
-                            <a class="navigation-link" href="{% url 'login' %}">Log In</a>
+                        <div class="logout">
+                            <a class="navigation-link" href="{% url 'logout' %}">Log Out</a>
                         </div>
-                    </div>
-                    <div class="register">
-                        <a class="navigation-link" href="{% url 'register' %}">Register</a>
-                    </div>
+                    {% else %}
+                        <div class="navigation-item-container">
+                            <div class="navigation-item">
+                                <a class="navigation-link" href="{% url 'login' %}">Log In</a>
+                            </div>
+                        </div>
+                        <div class="register">
+                            <a class="navigation-link" href="{% url 'register' %}">Register</a>
+                        </div>
                     {% endif %}
             </nav>
         </div>
@@ -80,15 +80,15 @@
                     <!-- Recommend three users to follow -->
                         <p>Who to follow</p>
                         {% for user in recommend_follow %}
-                        <div class="recommend-follow">
-                            <div class="profile-pic">
-                                PIC
+                            <div class="recommend-follow">
+                                <div class="profile-pic">
+                                    PIC
+                                </div>
+                                <div class="recommend-user">
+                                    <a href="/profile/{{ user.username }}"><div>{{ user.first_name }} {{ user.last_name }}</div></a>
+                                    <div>@{{ user.username }}</div>
+                                </div>
                             </div>
-                            <div class="recommend-user">
-                                <a href="/profile/{{ user.username }}"><div>{{ user.first_name }} {{ user.last_name }}</div></a>
-                                <div>@{{ user.username }}</div>
-                            </div>
-                        </div>
                         {% endfor %}
                 </div>
             </div>

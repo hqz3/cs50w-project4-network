@@ -1,10 +1,9 @@
 import json
-from re import S
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.core import serializers
-from django.core.serializers.json import DjangoJSONEncoder
+from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
@@ -71,16 +70,19 @@ def register(request):
         return render(request, "network/register.html")
 
 
-# Show all of current user's posts
+# Show all users' posts
 def index(request):
     posts = Post.objects.all().order_by('-timestamp')
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     if request.user.is_anonymous:
-        context = {"posts": posts}
-    else:
+        context = {"page_obj": page_obj}
+    else: 
         context = {
-            "posts": posts,
-            "recommend_follow": recommend_follow(request),
-        }
+        "page_obj": page_obj,
+        "recommend_follow": recommend_follow(request),
+    }
     return render(request, "network/index.html", context)
 
 
@@ -144,8 +146,12 @@ def following(request):
     for user in currently_following:
         followed_posts += (user.following.posts.all())
     followed_posts.sort(key=lambda post: post.timestamp, reverse=True)
+
+    paginator = Paginator(followed_posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        "followed_posts": followed_posts,
+        "page_obj": page_obj,
         "recommend_follow": recommend_follow(request), 
     }
     return render(request, "network/following.html", context)
@@ -155,13 +161,17 @@ def profile(request, username):
     current_user = User.objects.get(username=request.user)
     viewed_user = User.objects.get(username=username)
     
+    paginator = Paginator(viewed_user.posts.all().order_by('-timestamp'), 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
         "currently_followed": len(Follow.objects.filter(user=current_user).filter(following=viewed_user)),
         "follower_count": viewed_user.followers.all().count(),
         "following_count": viewed_user.following.all().count(),
         "recommend_follow": recommend_follow(request),
         "viewed_user": viewed_user,
-        "viewed_user_posts": viewed_user.posts.all().order_by('-timestamp'),
+        "viewed_user_posts": page_obj,
     }
     return render(request, "network/profile.html", context)
 
