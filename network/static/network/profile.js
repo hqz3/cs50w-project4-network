@@ -1,7 +1,5 @@
 import { likeButtons, handleLikeClick, editButtons, handleEditClick } from './script.js';
 likeButtons.forEach(button => button.addEventListener('click', handleLikeClick));
-
-console.log(editButtons)
 if (editButtons.length) editButtons.forEach(button => {
     button.addEventListener('click', handleEditClick);
 })

@@ -1,8 +1,19 @@
 {% extends "network/layout.html" %}
 {% load static %}
 
+{% block title %}Profile{% endblock %}
+
 {% block body %}
     {% if user.is_authenticated %}
+    <div class="profile-header">
+        
+        <div>{{ viewed_user.first_name }} {{ viewed_user.last_name }}</div>
+        {% if post_count <= 1 %}
+            <div class="post-count">{{ post_count }} post </div>
+        {% elif post_count > 1 %}
+            <div class="post-count">{{ post_count }} posts </div>
+        {% endif %}
+        </div>
         <div class="profile-container">
             <div class="profile-top">
                 <div class="image-container">

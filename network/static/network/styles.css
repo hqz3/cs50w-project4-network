@@ -228,6 +228,18 @@ body {
 
 /* Profile */
 
+.profile-header {
+    border-top: 1px solid gainsboro;
+    border-bottom: 1px solid gainsboro;
+    font-weight: bold;
+    padding: 10px 0px 10px 15px;
+}
+
+.post-count {
+    font-size: 14px;
+    color: gray;
+}
+
 .profile-container {
     padding: 15px;
     border-top: 1px solid gainsboro;
@@ -367,6 +379,7 @@ body {
     text-decoration: none;
     background-color: whitesmoke;
 }
+
 
 /* Function */
 

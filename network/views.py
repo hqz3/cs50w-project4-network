@@ -169,6 +169,7 @@ def profile(request, username):
         "currently_followed": len(Follow.objects.filter(user=current_user).filter(following=viewed_user)),
         "follower_count": viewed_user.followers.all().count(),
         "following_count": viewed_user.following.all().count(),
+        "post_count": viewed_user.posts.all().count,
         "recommend_follow": recommend_follow(request),
         "viewed_user": viewed_user,
         "viewed_user_posts": page_obj,
