@@ -86,11 +86,15 @@
           <p>Who to follow</p>
           {% for user in recommend_follow %}
           <div class="recommend-follow">
-            <div class="profile-pic">PIC</div>
+            <div class="profile-pic">
+              <a href="/profile/{{ user.username }}">
+                <img src="{{ user.profile_picture.url }}" />
+              </a>
+            </div>
             <div class="recommend-user">
               <a href="/profile/{{ user.username }}"
-                ><div>{{ user.first_name }} {{ user.last_name }}</div></a
-              >
+                ><div>{{ user.first_name }} {{ user.last_name }}</div>
+              </a>
               <div>@{{ user.username }}</div>
             </div>
           </div>

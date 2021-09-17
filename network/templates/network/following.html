@@ -8,7 +8,9 @@
     <div class="post-outer-container">
         <div class="post-container">
             <div class="profile-pic">
-                PIC
+                <a href="/profile/{{ post.user.username }}">
+                    <img src="{{ post.user.profile_picture.url }}" />
+                  </a>
             </div>
             <div class="post-body-container">
                 <div class="post-body-top">

@@ -17,7 +17,7 @@
         <div class="profile-container">
             <div class="profile-top">
                 <div class="image-container">
-                    <img src="{% static 'images/default-profile.jpeg' %}">
+                    <img src="{{ viewed_user.profile_picture.url }}">
                 </div>
                 {% if request.user.username == viewed_user.username %}
                 <div class="follow-button-container">
@@ -54,7 +54,9 @@
 
                 <div class="post-container">
                     <div class="profile-pic">
-                        PIC
+                        <a href="/profile/{{ viewed_user.username }}">
+                            <img src="{{ viewed_user.profile_picture.url }}">
+                        </a>
                     </div>
                     <div class="post-body-container">
                         <div class="post-body-top">
