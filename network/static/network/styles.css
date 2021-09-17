@@ -388,22 +388,21 @@ body {
   background-color: whitesmoke;
 }
 
-/* Register */
+/* Register & Login */
 
 .full-name {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-.register-button {
+.register-button,
+.login-button {
   background-color: aqua;
   display: grid;
-  /* grid-template-columns: 1fr; */
-  /* justify-content: center; */
 }
 
-.already-registered {
-  /* background-color: aqua; */
+.already-registered,
+.register-suggestion {
   margin-top: 10px;
   text-align: center;
 }
