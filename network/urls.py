@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 
 from . import views
@@ -15,4 +17,5 @@ urlpatterns = [
     # API Routes
     path("post/<int:post_id>", views.update_likes, name="like"),
     path("profile/<str:username>/toggle_follow", views.toggle_follow, name="toggle_follow"),
-]
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
