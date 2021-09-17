@@ -192,8 +192,14 @@ def recommend_follow(request):
 
 # Create a new Follow instance for the current user
 def toggle_follow(request, username):
+
     current_user = User.objects.get(username=request.user)
     viewed_user = User.objects.get(username=username)
+
+    if (current_user == viewed_user):
+        return JsonResponse({
+            "message": "User cannot follow themself"
+        })
 
     following = (Follow.objects.filter(user=current_user).filter(following=viewed_user))
 
