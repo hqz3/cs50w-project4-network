@@ -296,7 +296,7 @@ body {
 }
 
 #unfollow,
-#set-up {
+#setup {
   background-color: white;
   border: 1px solid gainsboro;
   border-radius: 25px;
@@ -317,11 +317,11 @@ body {
   color: crimson;
 }
 
-#set-up:focus {
+#setup:focus {
   outline: none;
 }
 
-#set-up:hover {
+#setup:hover {
   filter: brightness(90%);
 }
 
@@ -338,6 +338,27 @@ body {
 .following-count {
   font-weight: bold;
   color: black;
+}
+
+/* Setup Modal */
+.setup-modal {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: minmax(450px, 550px);
+  grid-template-rows: minmax(500px, 600px);
+}
+
+.setup-form {
+  border-radius: 15px;
+  height: 100%;
+  width: 100%;
+  background-color: white;
 }
 
 /* Right Pane */

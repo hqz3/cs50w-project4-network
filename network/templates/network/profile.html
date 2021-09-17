@@ -6,7 +6,6 @@
 {% block body %}
     {% if user.is_authenticated %}
     <div class="profile-header">
-        
         <div>{{ viewed_user.first_name }} {{ viewed_user.last_name }}</div>
         {% if post_count <= 1 %}
             <div class="post-count">{{ post_count }} post </div>
@@ -21,7 +20,7 @@
                 </div>
                 {% if request.user.username == viewed_user.username %}
                 <div class="follow-button-container">
-                    <button class="set-up-profile" id="set-up" title="Set up profile" value="{{ viewed_user.username }}">Set up profile</button>
+                    <button class="setup-profile" id="setup" title="Set up profile" value="{{ viewed_user.username }}">Set up profile</button>
                 </div>
                 {% elif request.user.username != viewed_user.username %}
                     {% if currently_followed == False %}

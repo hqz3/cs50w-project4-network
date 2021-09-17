@@ -1,9 +1,12 @@
 import {
-  likeButtons,
-  handleLikeClick,
   editButtons,
   handleEditClick,
+  likeButtons,
+  handleLikeClick,
+  // setupModal,
+  // setupForm,
 } from "./script.js";
+
 likeButtons.forEach((button) =>
   button.addEventListener("click", handleLikeClick)
 );
@@ -64,4 +67,33 @@ function handleUnfollowMouseOver(e) {
 
 function handleUnfollowMouseLeave(e) {
   toggleFollowButton.textContent = "Following";
+}
+
+// When "Set up profile" button is clicked show a profile setup pane
+const setupButton = document.querySelector(".setup-profile");
+const setupModal = document.querySelector(".setup-modal");
+const setupForm = document.querySelector(".setup-form");
+
+const handleOutsideClick = (e) => {
+  if (e.target.getAttribute("class") === "setup-modal") {
+    setupModal.classList.add("display-hide");
+    setupForm.classList.add("display-hide");
+    setupButton.classList.remove("display-hide");
+    setupModal.removeEventListener("click", handleOutsideClick);
+  }
+};
+
+const handleSetupClick = (e) => {
+  if (setupModal.classList.contains("display-hide")) {
+    setupButton.classList.add("display-hide");
+    setupModal.classList.remove("display-hide");
+    setupForm.classList.remove("display-hide");
+
+    // Add EventListener to close modal when click is registered outside the form
+    setupModal.addEventListener("click", handleOutsideClick);
+  }
+};
+
+if (setupButton) {
+  setupButton.addEventListener("click", handleSetupClick);
 }
