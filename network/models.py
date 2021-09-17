@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     pass
-
+    bio = models.TextField(blank=True, max_length=160)
 
 class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="posts")
