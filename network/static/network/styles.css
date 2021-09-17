@@ -276,11 +276,12 @@ body {
   padding: 5px 20px 5px 20px;
 }
 
-#follow {
+#follow:focus {
   outline: none;
 }
 
-#unfollow {
+#unfollow,
+#set-up {
   background-color: white;
   border: 1px solid gainsboro;
   border-radius: 25px;
@@ -289,15 +290,24 @@ body {
   font-size: 16px;
   padding: 5px 20px 5px 20px;
   transition: background-color 0.1s ease-in;
+  transition: filter 0.25s;
 }
 
-#unfollow:hover {
+#unfollow:focus {
   outline: none;
 }
 
 #unfollow:hover {
   background-color: #fad1d0;
   color: crimson;
+}
+
+#set-up:focus {
+  outline: none;
+}
+
+#set-up:hover {
+  filter: brightness(90%);
 }
 
 .profile-bio {
