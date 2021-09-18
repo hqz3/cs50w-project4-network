@@ -78,6 +78,7 @@ const handleOutsideClick = (e) => {
   if (e.target.getAttribute("class") === "setup-modal") {
     setupModal.classList.add("display-hide");
     setupForm.classList.add("display-hide");
+    setupForm.querySelector("textarea").value = "";
     setupButton.classList.remove("display-hide");
     setupModal.removeEventListener("click", handleOutsideClick);
   }
@@ -89,7 +90,7 @@ const handleSetupClick = (e) => {
     setupModal.classList.remove("display-hide");
     setupForm.classList.remove("display-hide");
 
-    // Add EventListener to close modal when click is registered outside the form
+    // Add EventListener to close setup modal when click is registered outside the form
     setupModal.addEventListener("click", handleOutsideClick);
   }
 };

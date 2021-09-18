@@ -72,7 +72,8 @@ body {
 
 .logout:hover,
 .register:hover,
-.save-button:hover {
+.save-button:hover,
+.setup-submit-container input:hover {
   filter: brightness(0.9);
 }
 
@@ -359,6 +360,42 @@ body {
   height: 100%;
   width: 100%;
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.setup-container {
+  height: 87.5%;
+  width: 87.5%;
+}
+
+.setup-container div:nth-child(1) {
+  text-align: center;
+}
+
+.bio,
+.image {
+  margin: 25px 0 25px 0;
+}
+
+.bio textarea {
+  border-radius: 10px;
+  width: 100%;
+  resize: none;
+}
+
+.setup-submit-container {
+  display: flex;
+  justify-content: center;
+}
+
+.setup-submit-container input {
+  background-color: crimson;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  padding: 10px 15px 10px 15px;
 }
 
 /* Right Pane */

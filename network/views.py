@@ -3,18 +3,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.core import serializers
+from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
-from django.db import IntegrityError
+from django.db import IntegrityError, reset_queries
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
-from django.http.request import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 import random
 
 from . models import Follow, User, Post
-
 
 def login_view(request):
     if request.method == "POST":
@@ -35,11 +34,9 @@ def login_view(request):
     else:
         return render(request, "network/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -69,7 +66,6 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
-
 # Show all users' posts
 def index(request):
     posts = Post.objects.all().order_by('-timestamp')
@@ -85,7 +81,6 @@ def index(request):
     }
     return render(request, "network/index.html", context)
 
-
 # Add new post into database
 def add_post(request):
     if request.method == "POST":
@@ -94,6 +89,25 @@ def add_post(request):
         post.save()
     return HttpResponseRedirect(reverse(index))
 
+def update_profile(request):
+    try:
+        if request.method == "POST" and request.FILES["image"]:
+            image = request.FILES["image"]
+            fss = FileSystemStorage("media/profile_pictures", "profile_pictures")
+            file = fss.save(image.name, image)
+            url = fss.url(file)
+
+            user = User.objects.get(username=request.user)
+            user.profile_picture = url
+            user.save()
+    except: 
+        print('No image')
+
+    if request.method == "POST" and request.POST["bio"]:
+        user = User.objects.get(username=request.user)
+        user.bio = request.POST["bio"]
+        user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 # Edit selected post
 @csrf_exempt
@@ -137,7 +151,6 @@ def update_likes(request, post_id):
         })
     except:
         return JsonResponse({"message": "Post not found"}, status=400)
-
 
 def following(request):
     current_user = User.objects.get(username=request.user)
@@ -188,7 +201,6 @@ def recommend_follow(request):
     
     not_following = random.sample(list(not_following), sample_size)
     return not_following
-
 
 # Create a new Follow instance for the current user
 def toggle_follow(request, username):

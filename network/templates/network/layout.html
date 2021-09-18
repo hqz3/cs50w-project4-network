@@ -15,7 +15,35 @@
 
   <body>
     <div class="setup-modal display-hide">
-      <div class="setup-form display-hide"></div>
+      <div class="setup-form display-hide">
+        <div class="setup-container">
+          <div><span style="color: crimson">CS</span>50Network</div>
+          <form
+            action="{% url 'update-profile' %}"
+            enctype="multipart/form-data"
+            method="POST"
+          >
+            {% csrf_token %}
+            <div class="image">
+              <h5>Upload your profile picture</h5>
+              <input type="file" name="image" />
+            </div>
+
+            <div class="bio">
+              <h5>Describe yourself</h5>
+              <textarea
+                maxlength="160"
+                placeholder="Your bio"
+                rows="3"
+                name="bio"
+              ></textarea>
+            </div>
+            <div class="setup-submit-container">
+              <input type="submit" />
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
     <div class="left-pane">
